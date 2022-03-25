@@ -19,7 +19,7 @@ public class HelloWorld {
         Player[] array_player = new Player[2];
         //This is just defing whose turn it is and what the players turn and character is.
         if (rolled_dice > comp_dice){
-            System.out.println("You just beat that piece of shit malware in a dice toss!");
+            System.out.println("You just beat that lame piece of malware in a dice toss!");
             System.out.println("Enter X or O for your choice of symbol: ");
             symbol = myObj.next().charAt(0);
             Player player1 = new Player(true,symbol);
@@ -80,6 +80,7 @@ public class HelloWorld {
             System.out.print("  ,RIDDLE: ");
             System.out.println(elements.nextElement());
         }
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
     }
     public static void printboard(char[][] board){
         for (int i=0; i<board.length; i++){
@@ -177,6 +178,7 @@ public class HelloWorld {
         int comp_dice;
         Player[] data_players;
         Random rand = new Random();
+        dictionarytest(); //Grabs the local riddles on my local machine in a comma seperated csv file.
         System.out.println("Roll the motherfucking dice to see if you go first or second: ");
         rolled_dice = rand.nextInt(6) + rand.nextInt(6);
         comp_dice = rand.nextInt(6) + rand.nextInt(6);
@@ -185,7 +187,6 @@ public class HelloWorld {
         data_players = start_game(rolled_dice,comp_dice);
         gamelogic(board,data_players[0],data_players[1]);
         printboard(board);
-        //dictionarytest();
 
 
     }
