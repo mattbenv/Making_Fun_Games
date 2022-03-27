@@ -19,18 +19,24 @@ public class HelloWorld {
         Player[] array_player = new Player[2];
         //This is just defing whose turn it is and what the players turn and character is.
         if (rolled_dice > comp_dice){
-            System.out.println("You just beat that lame piece of malware in a dice toss!");
+            System.out.println("That malware just said you won that gambling dice toss!");
+            System.out.println("looks like you lost again likke the chess match last night!! MATTS UP");
             System.out.println("Enter X or O for your choice of symbol: ");
             symbol = myObj.next().charAt(0);
             Player player1 = new Player(true,symbol);
-            Player computer = new Player(false,'O');
+            if(symbol == 'o'){
+                Player computer = new Player(false,'x');
+                array_player[1] = computer;
+            }else{
+                Player computer = new Player(false,'o');
+                array_player[1] = computer;
+            }
             array_player[0]= player1;
-            array_player[1] = computer;
         }else{
-            System.out.println("YOU LOSE it is now ZUCKERBURGS TURN!!!");
-            System.out.println("Computer just chose the dominate piece X RULES X X X ");
-            Player player1 = new Player(false,'O');
-            Player computer = new Player(true,'X');
+            System.out.println("it is clearly Stephanies TURN!!!");
+            System.out.println("Steph just chose the dominate piece X RULES X X X ");
+            Player player1 = new Player(false,'o');
+            Player computer = new Player(true,'x');
             array_player[0]= player1;
             array_player[1] = computer;
         }
@@ -107,6 +113,7 @@ public class HelloWorld {
     public static boolean checkrows(char[][] board){
         for (int i=0; i<board.length; i++){
             if(board[i][0]== board[i][1] && board[i][0]==board[i][2]){
+                System.out.println("There is a row winner");
                 return true;
             }
         }
@@ -117,6 +124,7 @@ public class HelloWorld {
     public static boolean checkcolumns(char[][] board){
         for (int i=0; i<board.length; i++){
             if(board[0][i]== board[1][i] && board[0][i]==board[2][i]){
+                System.out.println("There is a column winner");
                 return true;
             }
         }
@@ -127,6 +135,7 @@ public class HelloWorld {
     public static boolean checkdiagnols(char[][] board){
         for (int i=0; i<board.length; i++){
             if((board[0][0]== board[1][1] && board[0][0]==board[2][2])||(board[0][2]== board[1][1] && board[0][2]==board[2][0])) {
+                System.out.println("There is a diagnol winner");
                 return true;
             }
         }
@@ -145,26 +154,30 @@ public class HelloWorld {
 
         boolean computer_turn = computer.isTurn();
         char computer_piece = computer.getSymbol();
-        while(checkwinner(board)== true && isboardfull(board) == false ){
+
+        while(checkwinner(board)== false || isboardfull(board) == false ){
             //Logic for the user
             if(player_turn == true){
+                System.out.println("PLAYER 1 please enter your position row 1-3 and column 1-3: ");
                 Scanner position = new Scanner(System.in);
-                int num1;
-                int num2;
+                int num1=1;
+                int num2=1;
                 num1 = position.nextInt();
                 num2 = position.nextInt();
-                board[num1][num2]= player_piece;
-                player_turn =false;
+                board[num1-1][num2-1]= player_piece;
+                player_turn = false;
                 printboard(board);
+                System.out.println();
                 System.out.println("---------------------------------------------------------------");
                 //The else below is the logic for player 2 or the user.
             }else{
+                System.out.println("steph please enter your position row 1-3 and column 1-3: ");
                 Scanner computer_scanner = new Scanner(System.in);
-                int num1;
-                int num2;
+                int num1=1;
+                int num2=1;
                 num1 = computer_scanner.nextInt();
                 num2 = computer_scanner.nextInt();
-                board[num1][num2]= computer_piece;
+                board[num1-1][num2-1]= computer_piece;
                 player_turn = true;
                 printboard(board);
                 System.out.println("---------------------------------------------------------------");
@@ -174,6 +187,14 @@ public class HelloWorld {
     public static void main(String[] args) throws FileNotFoundException {
 
         char[][] board = new char[3][3];
+        char[] numbers = new char[]{ '1','2','3','4','5','6','7','8','9','1'};
+        int counter = 0;
+        for(int i=0; i<board.length;i++){
+            for(int j=0; j<board.length;j++){
+                board[i][j]= numbers[counter];
+                counter= counter+1;
+            }
+        }
         int rolled_dice;
         int comp_dice;
         Player[] data_players;
@@ -182,11 +203,12 @@ public class HelloWorld {
         System.out.println("Roll the motherfucking dice to see if you go first or second: ");
         rolled_dice = rand.nextInt(6) + rand.nextInt(6);
         comp_dice = rand.nextInt(6) + rand.nextInt(6);
-        System.out.println("DICE: " + String.valueOf(rolled_dice));
+        System.out.println("matts dice: " + String.valueOf(rolled_dice));
+        System.out.println("stephanies dice: " + String.valueOf(comp_dice));
         System.out.println(String.valueOf(comp_dice));
         data_players = start_game(rolled_dice,comp_dice);
         gamelogic(board,data_players[0],data_players[1]);
-        printboard(board);
+        System.out.println("Ladys and Gentleman the fat lad has started singing HALALALALALALALALALLALALALALA");
 
 
     }
