@@ -2,6 +2,7 @@
 //This is going to be a class that defines the p[arameters for the gane
 import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.sql.SQLOutput;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 public class HelloWorld {
+
     public static Player[] start_game(int rolled_dice, int comp_dice){
         Scanner myObj = new Scanner(System.in);
         char symbol;
@@ -158,36 +160,84 @@ public class HelloWorld {
         while(checkwinner(board)== false || isboardfull(board) == false ){
             //Logic for the user
             if(player_turn == true){
-                System.out.println("PLAYER 1 please enter your position row 1-3 and column 1-3: ");
+                printboard(board);
+                System.out.println("Matt please enter a position on the board: ");
                 Scanner position = new Scanner(System.in);
-                int num1=1;
-                int num2=1;
-                num1 = position.nextInt();
-                num2 = position.nextInt();
-                board[num1-1][num2-1]= player_piece;
+                int num;
+                int row;
+                int col;
+                num = position.nextInt();
+                col = num %3;
+                row = num/3;
+                while(board[row][col]=='x' || board[row][col]=='o'){
+                    System.out.println("That position is taken, try again! ");
+                    num = position.nextInt();
+                    col = num %3;
+                    row = num/3;
+                }
+                board[row][col]= player_piece;
                 player_turn = false;
                 printboard(board);
-                System.out.println();
                 System.out.println("---------------------------------------------------------------");
                 //The else below is the logic for player 2 or the user.
             }else{
-                System.out.println("steph please enter your position row 1-3 and column 1-3: ");
+                printboard(board);
+                System.out.println("steph please enter your position on board:");
                 Scanner computer_scanner = new Scanner(System.in);
-                int num1=1;
-                int num2=1;
-                num1 = computer_scanner.nextInt();
-                num2 = computer_scanner.nextInt();
-                board[num1-1][num2-1]= computer_piece;
+                int num;
+                int row;
+                int col;
+                num = computer_scanner.nextInt();
+                col =num %3;
+                row = num/3;
+                while(board[row][col]=='x' || board[row][col]=='o'){
+                    System.out.println("That position is taken, tr a new spot");
+                    num = computer_scanner.nextInt();
+                    col = num %3;
+                    row = num/3;
+                }
+                board[row][col]= computer_piece;
                 player_turn = true;
                 printboard(board);
                 System.out.println("---------------------------------------------------------------");
             }
         }
     }
-    public static void main(String[] args) throws FileNotFoundException {
 
+    //This function iterates through the 9 boards and prints each one down!
+    public static void print3dboard(char[][][] board1, char[] numbers){
+        int counter = 0;
+        for(int i=0; i<board1.length;i++){
+            for(int j=0; j<board1.length;j++){
+                counter = 0;
+                for( int k=0;k<board1[0][0].length;k++){
+                    board1[i][j][k] = numbers[counter];
+                    counter ++;
+                }
+            }
+        }
+        for(int i=0; i<board1.length;i++){
+            for(int j=0; j<board1.length;j++){
+                for( int k=0;k<board1[0][0].length;k++){
+                    System.out.print(board1[i][j][k]);
+                    if( k %3 ==2){
+                        System.out.println("");
+                    }else{
+                        System.out.print(" ");
+                    }
+                }
+                System.out.println("-----------------");
+            }
+        }
+    }
+    public static void main(String[] args) throws FileNotFoundException {
         char[][] board = new char[3][3];
-        char[] numbers = new char[]{ '1','2','3','4','5','6','7','8','9','1'};
+        char[] numbers = new char[]{ '0','1','2','3','4','5','6','7','8'};
+        char[][][] board1 = new char[3][3][9];
+
+        print3dboard(board1, numbers);
+        System.out.println(board1[0][0][8]);
+        //The last component is the index, the other components are the board number boards 1-9--> (0,0), (0,1), (0,2), (1,0), (1,1), (1,2), (2,0), (2,1), (2,2)
         int counter = 0;
         for(int i=0; i<board.length;i++){
             for(int j=0; j<board.length;j++){
